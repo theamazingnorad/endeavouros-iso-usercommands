@@ -66,8 +66,13 @@
 # echo "# Hello world!" >> /home/$username/.bashrc
 # pacman -S --noconfirm --needed geany chromium libreoffice-fresh
 
-if [[ ! $(grep '@snapshots' '/etc/calmares/modules/mount.conf)' ]]; then
-      tabs4
-      sudo sed -i '/subvolume: \/@log/a\\t- mountPoint: \/.snapshots\n\t  subvolume: \/@snapshots' mount.conf
-fi
+# This runs the following command before Calamares using the paramaters listed above
+# Only works with post 2023-Feb-02 ISO.
+if [[ $1 == --iso-config ]]; then 
+      if [[ ! $(grep '@snapshots' '/etc/calmares/modules/mount.conf)' ]]; then
+            tabs4
+            sudo sed -i '/subvolume: \/@log/a\\t- mountPoint: \/.snapshots\n\t  subvolume: \/@snapshots' mount.conf
+      fi
+fi 
+
 
