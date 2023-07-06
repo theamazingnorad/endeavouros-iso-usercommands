@@ -59,10 +59,15 @@
 #----------------------------------------------------------------------------------
 # Full example (to try it, remove the first '#' from the lines below):
 #
-# #!/bin/bash
+#!/bin/bash
 #
 # # Note: needs ISO since year 2022
-#
 # username="$1"
 # echo "# Hello world!" >> /home/$username/.bashrc
 # pacman -S --noconfirm --needed geany chromium libreoffice-fresh
+
+if [[ ! $(grep '@snapshots' '/etc/calmares/modules/mount.conf)' ]]; then
+      tabs4
+      sudo sed -i '/subvolume: \/@log/a\\t- mountPoint: \/.snapshots\n\t  subvolume: \/@snapshots' mount.conf
+fi
+
