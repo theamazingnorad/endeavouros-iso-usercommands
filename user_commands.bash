@@ -68,11 +68,23 @@
 
 # This runs the following command before Calamares using the paramaters listed above
 # Only works with post 2023-Feb-02 ISO.
+cal_path=/etc/calamares/modules
+log_path=/home/liveuser
+
 if [[ $1 == --iso-config ]]; then 
-      if [[ ! $(grep '@snapshots' '/etc/calmares/modules/mount.conf)' ]]; then
-            tabs4
-            sudo sed -i '/subvolume: \/@log/a\\t- mountPoint: \/.snapshots\n\t  subvolume: \/@snapshots' mount.conf
-      fi
+    echo "$(date): Stage 1. of the user_commands.bash script in-progress..." >> $log_path/log.txt
+    if [[ ! $(grep '@snapshots' "$cal_path/mount.conf") ]]; then
+            echo "$(date): @snapshots not found.  Modifying mount.conf..." >> $log_path/log.txt
+            sudo sed -i '/subvolume: \/@log/a\\    - mountPoint: \/.snapshots\n\      subvolume: \/@snapshots' $cal_path/mount.conf 
+            #sudo sed '/subvolume: \/@log/a\\    - mountPoint: \/.snapshots\n\      subvolume: \/@snapshots' mount.conf 
+            echo "Resulting subvolumes after modification:"            
+            grep 'subvolume:' $cal_path/mount.conf | while read line
+            do
+                echo $line >> $log_path/log.txt
+                if [[ $line == *"snapshots"* ]]; then sucess=true; fi
+            done
+            if [[ sucess != true ]]; then exit 1; fi
+    fi
 fi 
 
 
