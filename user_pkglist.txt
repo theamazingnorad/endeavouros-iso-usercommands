@@ -12,6 +12,7 @@ ranger
 exa
 lsd
 tree
+lolcat
 vim
 btop
 ttf-nerd-fonts-symbols
@@ -20,3 +21,12 @@ starship
 
 # System Programs
 snapper
+
+#Gaming
+vulkan-radeon 
+lib32-vulkan-radeon
+vulkan-icd-loader
+lib32-vulkan-icd-loader
+lib32-mesa 
+gamemode 
+lib32-gamemode
