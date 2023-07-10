@@ -76,14 +76,13 @@ if [[ $1 == --iso-config ]]; then
     if [[ ! $(grep '@snapshots' "$cal_path/mount.conf") ]]; then
             echo "$(date): @snapshots not found.  Modifying mount.conf..." >> $log_path/log.txt
             sudo sed -i '/subvolume: \/@log/a\\    - mountPoint: \/.snapshots\n\      subvolume: \/@snapshots' $cal_path/mount.conf 
-            #sudo sed '/subvolume: \/@log/a\\    - mountPoint: \/.snapshots\n\      subvolume: \/@snapshots' mount.conf 
             echo "Resulting subvolumes after modification:"            
             grep 'subvolume:' $cal_path/mount.conf | while read line
             do
                 echo $line >> $log_path/log.txt
                 if [[ $line == *"snapshots"* ]]; then sucess=true; fi
             done
-            if [[ sucess != true ]]; then exit 1; fi
+            if [[ sucess != true ]]; then (echo "No @snapshots volume found after edit.  Please manually check mount.conf" >> $log_path/log.txt) && exit 1; fi
     fi
 fi 
 
